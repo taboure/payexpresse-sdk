@@ -239,6 +239,7 @@ img.figlio{
 
 .vbox-close{
     background: transparent !important;
+    visibility: hidden !important;
 }
 
 .vbox-content{

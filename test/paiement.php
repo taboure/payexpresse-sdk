@@ -10,30 +10,48 @@
 require '../php-sdk/PayExpresse.php';
 
 
+$id = !empty($_POST['item_id']) ? $_POST['item_id'] : null;
+$items = json_decode(file_get_contents('article.json'), true)['articles'];
+$key = array_search($id, array_column($items, 'id'));
 
-$item = Product::select(['item_name', 'item_price']);
+if($key === false || $id === null)
+{
+    echo json_encode([
+        'success' => -1, //or false,
+        'errors' => [
+            'article avec cet id non trouvé'
+        ]
+    ], JSON_PRETTY_PRINT|JSON_HEX_QUOT|JSON_UNESCAPED_UNICODE);
+}
+else{
+    $item = (object)$items[$key];
+
+    $apiKey = '1afac858d4fa5ec74e3e3734c3829793eb6bd5f4602c84ac4a5069369812915e';
+    $apiSecret = '96bc36c11560f2151c4b43eee310cefabc2e9e9000f7e315c3ca3d279e3f98ac';
+
+    $response = (new PayExpresse($apiKey, $apiSecret))->setQuery([
+        'item_name' => $item->name,
+        'item_price' => $item->price,
+        'command_name' => "Paiement {$item->name} Gold via PayExpresse",
+    ])->setCustomeField([
+        'item_id' => $id,
+        'time_command' => time(),
+        'ip_user' => $_SERVER['REMOTE_ADDR'],
+        'lang' => locale_accept_from_http($_SERVER['HTTP_ACCEPT_LANGUAGE'])
+    ])
+        ->setTestMode(true)
+        ->setCurrency($item->currency)
+        ->setRefCommand(uniqid())
+        ->setNotificationUrl([
+            'ipn_url' => 'https://localhost:8888/payexpress-sdk/test/ipn.php', //only https
+            'success_url' => 'http://localhost:8888/payexpress-sdk/test/index.php?state=success&id='.$id,
+            'cancel_url' => 'http://localhost:8888/payexpress-sdk/test/index.php?state=cancel&id='.$id
+        ])->send();
+
+    echo json_encode($response);
+}
 
 
-$apiKey = '1afac858d4fa5ec74e3e3734c3829793eb6bd5f4602c84ac4a5069369812915e';
-$apiSecret = '96bc36c11560f2151c4b43eee310cefabc2e9e9000f7e315c3ca3d279e3f98ac';
 
-$response = (new PayExpresse($apiKey, $apiSecret))->setQuery([
-    'item_name' => $item->item_name,
-    'item_price' => $item->price,
-    'command_name' => "Paiement {$item->item_name} Gold via PayExpresse",
-])->setCustomeField([
-    'field_1' => 'my_value_1',
-    'field_2' => 'my_value_2'
-])
-    ->setTestMode(true)
-    ->setCurrency('xof')
-    ->setRefCommand(uniqid())
-    ->setNotificationUrl([
-        'ipn_url' => 'https://www.domaine.com/ipn',
-        'success_url' => 'https://www.domaine.com/success',
-        'cancel_url' => 'https://www.domaine.com/success'
-    ])->send();
-
-echo json_encode($response);
 
 

@@ -22,7 +22,8 @@ class PayExpresse
     /**
      * @var string
      */
-    const URL = "https://payexpresse.com";
+    //const URL = "https://payexpresse.com";//todo
+    const URL = "http://localhost:5008";//todo
 
     const PAYMENT_REQUEST_PATH = '/api/payment/request-payment';
 
@@ -75,13 +76,13 @@ class PayExpresse
             'command_name'      =>      PayExpresse::arrayGet($this->query, 'command_name'),
             'ref_command'       =>      $this->refCommand,
             'env'               =>      ($this->testMode) ? 'test' : 'prod',
-            'currency'            =>      $this->currency,
             'currency'          =>      $this->currency,
             'ipn_url'           =>      PayExpresse::arrayGet($this->notificationUrl, 'ipn_url'),
-            'success_url'       =>      PayExpresse::arrayGet($this->notificationUrl, 'cancel_url'),
-            'cancel_url'        =>      PayExpresse::arrayGet($this->notificationUrl, 'custom_field'),
+            'success_url'       =>      PayExpresse::arrayGet($this->notificationUrl, 'success_url'),
+            'cancel_url'        =>      PayExpresse::arrayGet($this->notificationUrl, 'cancel_url'),
             'custom_field'      =>       json_encode($this->customeField)
         ];
+
 
         $rawResponse = PayExpresse::post($this::URL.$this::PAYMENT_REQUEST_PATH, $params, [
             "API_KEY: {$this->apiKey}",
@@ -105,15 +106,15 @@ class PayExpresse
         {
             return [
                 'success' => -1,
-                'message' => $jsonResponse['message'],
-                'error' => $jsonResponse['error']
+                'errors' => $jsonResponse['error']
             ];
         }
         else{
             return [
                 'success' => -1,
-                'message' => 'internal error',
-                'error' => []
+                'errors' => [
+                    'Internal Error'
+                ]
             ];
         }
 
