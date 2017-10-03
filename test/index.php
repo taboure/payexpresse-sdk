@@ -77,6 +77,9 @@
         })).withOption({
             requestTokenUrl           :   'http://localhost:8888/payexpress-sdk/test/paiement.php',
             method              :   'POST',
+            headers             :   {
+                "Accept": "*/*" //pour passer deas headers
+            },
             prensentationMode   :   PayExpresse.OPEN_IN_POPUP,
             didPopupClosed: function (is_completed, success_url, cancel_url) {
                 if(is_completed)

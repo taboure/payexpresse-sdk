@@ -1472,6 +1472,36 @@
      * payexpresse.com
      */
 
+    if (typeof Object.assign != 'function') {
+        // Must be writable: true, enumerable: false, configurable: true
+        Object.defineProperty(Object, "assign", {
+            value: function assign(target, varArgs) { // .length of function is 2
+                'use strict';
+                if (target == null) { // TypeError if undefined or null
+                    throw new TypeError('Cannot convert undefined or null to object');
+                }
+
+                var to = Object(target);
+
+                for (var index = 1; index < arguments.length; index++) {
+                    var nextSource = arguments[index];
+
+                    if (nextSource != null) { // Skip over if undefined or null
+                        for (var nextKey in nextSource) {
+                            // Avoid bugs when hasOwnProperty is shadowed
+                            if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
+                                to[nextKey] = nextSource[nextKey];
+                            }
+                        }
+                    }
+                }
+                return to;
+            },
+            writable: true,
+            configurable: true
+        });
+    }
+
     function PayExpresse(data) {
 
         this.dataSentToServer = data || {};
@@ -1495,6 +1525,7 @@
         this.option = {
             requestTokenUrl                 :       option.requestTokenUrl || null,
             method                          :       option.method || this.option.method,
+            headers                          :       option.headers || {},
             prensentationMode               :       option.prensentationMode || this.option.prensentationMode,
             didPopupClosed                  :       option.didPopupClosed || this.option.didPopupClosed,
             willGetToken                    :       option.willGetToken || this.option.willGetToken,
@@ -1592,23 +1623,20 @@
         var url = this.option.requestTokenUrl;
 
         var params = {
-            method: this.option.method.toUpperCase()
+            method: this.option.method.toUpperCase(),
+            credentials: "same-origin"
         };
 
         if(String(this.option.method).toUpperCase() === 'GET' || String(this.option.method).toUpperCase() === 'HEAD')
         {
-
-
             url +=  '?' + this.serialize(this.dataSentToServer);
         }
         else{
-            var formData  = new FormData();
+            params.body = this.serialize(this.dataSentToServer);
 
-            for(var name in this.dataSentToServer) {
-                formData.append(name, this.dataSentToServer[name]);
-            }
-
-            params.body = formData;
+            params.headers =  Object.assign({
+                "Content-Type": "application/x-www-form-urlencoded"
+            }, this.option.headers);
         }
 
 
