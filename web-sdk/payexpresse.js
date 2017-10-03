@@ -1602,11 +1602,14 @@
             url +=  '?' + this.serialize(this.dataSentToServer);
         }
         else{
-            params.body = this.serialize(this.dataSentToServer);
+            var formData  = new FormData();
 
-            params.headers =  {
-                "Content-Type": "application/x-www-form-urlencoded"
+            for(var name in this.dataSentToServer) {
+                formData.append(name, data[name]);
             }
+
+            params.body = formData;
+
         }
 
 
