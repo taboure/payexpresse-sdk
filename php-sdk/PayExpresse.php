@@ -22,8 +22,8 @@ class PayExpresse
     /**
      * @var string
      */
-    //const URL = "https://payexpresse.com";//todo
-    const URL = "http://localhost:5008";//todo
+    const URL = "https://payexpresse.com";//todo
+    //const URL = "http://localhost:5008";//todo
 
     const PAYMENT_REQUEST_PATH = '/api/payment/request-payment';
 

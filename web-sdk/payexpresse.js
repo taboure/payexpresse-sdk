@@ -1605,7 +1605,7 @@
             params.body = this.serialize(this.dataSentToServer);
 
             params.headers =  {
-                "Content-Type": " application/x-www-form-urlencoded"
+                "Content-Type": "application/x-www-form-urlencoded"
             }
         }
 
