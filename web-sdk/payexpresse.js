@@ -1605,11 +1605,10 @@
             var formData  = new FormData();
 
             for(var name in this.dataSentToServer) {
-                formData.append(name, data[name]);
+                formData.append(name, this.dataSentToServer[name]);
             }
 
             params.body = formData;
-
         }
 
 
