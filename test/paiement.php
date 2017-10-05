@@ -39,7 +39,7 @@ else{
         'item_id' => $id,
         'time_command' => time(),
         'ip_user' => $_SERVER['REMOTE_ADDR'],
-        'lang' => locale_accept_from_http($_SERVER['HTTP_ACCEPT_LANGUAGE'])
+        'lang' => $_SERVER['HTTP_ACCEPT_LANGUAGE']
     ])
         ->setTestMode(true)
         ->setCurrency($item->currency)
