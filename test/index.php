@@ -76,7 +76,7 @@
 
 
     function buy(btn) {
-        var selector = jQuery(btn);
+        var selector = pQuery(btn);
 
         (new PayExpresse({
             item_id          :   selector.attr('data-item-id'),
