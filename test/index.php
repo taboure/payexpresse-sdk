@@ -1,10 +1,13 @@
+<?php
+    require_once 'conf.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="../web-sdk/payexpresse.css">
-    <script src="../web-sdk/payexpresse.js"></script>
+    <link rel="stylesheet" href="https://cdn.payexpresse.com/v1/payexpresse.min.css">
+    <script src="https://cdn.payexpresse.com/v1/payexpresse.min.js"></script>
     <style>
         .buy{
             display: block;
@@ -75,10 +78,10 @@
         (new PayExpresse({
             item_id          :   selector.attr('data-item-id'),
         })).withOption({
-            requestTokenUrl           :   'http://localhost:8888/payexpress-sdk/test/paiement.php',
+            requestTokenUrl           :   <?= BASE_URL ?>'/paiement.php',
             method              :   'POST',
             headers             :   {
-                "Accept": "*/*" //pour passer deas headers
+               //pour passer des headers vers le servever ex:  "Accept": "text/html"
             },
             prensentationMode   :   PayExpresse.OPEN_IN_POPUP,
             didPopupClosed: function (is_completed, success_url, cancel_url) {
@@ -99,12 +102,12 @@
                 selector.prop('disabled', false);
             },
             didReceiveError: function (error) {
-                console.log('erreur inconnu', error);
+                alert('erreur inconnu', error.toString());
                 selector.prop('disabled', false);
             },
             didReceiveNonSuccessResponse: function (jsonResponse) {
                 console.log('non success response ',jsonResponse);
-                alert(jsonResponse.errors)
+                alert(jsonResponse.errors);
                 selector.prop('disabled', false);
             }
         }).send();

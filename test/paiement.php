@@ -8,6 +8,7 @@
 
 
 require '../php-sdk/PayExpresse.php';
+require_once 'conf.php';
 
 
 $id = !empty($_POST['item_id']) ? $_POST['item_id'] : null;
@@ -43,9 +44,9 @@ else{
         ->setCurrency($item->currency)
         ->setRefCommand(uniqid())
         ->setNotificationUrl([
-            'ipn_url' => 'https://localhost:8888/payexpress-sdk/test/ipn.php', //only https
-            'success_url' => 'http://localhost:8888/payexpress-sdk/test/index.php?state=success&id='.$id,
-            'cancel_url' => 'http://localhost:8888/payexpress-sdk/test/index.php?state=cancel&id='.$id
+            'ipn_url' => BASE_URL.'/ipn.php', //only https
+            'success_url' => BASE_URL.'/index.php?state=success&id='.$id,
+            'cancel_url' => BASE_URL.'/index.php?state=cancel&id='.$id
         ])->send();
 
     echo json_encode($response);
