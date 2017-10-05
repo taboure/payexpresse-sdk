@@ -6,10 +6,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-<!--    <link rel="stylesheet" href="https://cdn.payexpresse.com/v1/payexpresse.min.css">-->
-<!--    <script src="https://cdn.payexpresse.com/v1/payexpresse.min.js"></script>-->
-    <link rel="stylesheet" href="https://cdn.rawgit.com/sidsonAidson/payexpresse-sdk/01b5ba9f/web-sdk/payexpresse.min.css">
-    <script src="https://cdn.rawgit.com/sidsonAidson/payexpresse-sdk/01b5ba9f/web-sdk/payexpresse.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.payexpresse.com/v1/payexpresse.min.css">
+    <script src="https://cdn.payexpresse.com/v1/payexpresse.min.js"></script>
     <style>
         .buy{
             display: block;
@@ -88,8 +86,7 @@
             prensentationMode   :   PayExpresse.OPEN_IN_POPUP,
             didPopupClosed: function (is_completed, success_url, cancel_url) {
 
-                var r_url = is_completed ? success_url : cancel_url;
-                window.location.href = r_url;
+                window.location.href = is_completed === true ? success_url  : cancel_url;
             },
             willGetToken        :   function () {
                 console.log("Je me prepare a obtenir un token");
