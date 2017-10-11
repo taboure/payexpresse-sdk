@@ -2043,7 +2043,8 @@
 
 
             setTimeout(function () {
-                jqueryAlias('.venoframe').css({'width':jqueryAlias(window).width() - 380, 'height':jqueryAlias(window).height() - 65,'min-height':jqueryAlias(window).height() - 65 }).css('margin-top','15px');
+                var minus = jqueryAlias(window).width() > 700 ? 380 : 0;
+                jqueryAlias('.venoframe').css({'width':jqueryAlias(window).width() - minus, 'height':jqueryAlias(window).height() - 65,'min-height':jqueryAlias(window).height() - 65 }).css('margin-top','15px');
                 jqueryAlias('.vbox-content').css('margin-top','0').css('margin-bottom','0');
                 jqueryAlias('.vbox-container').css('overflow','hidden');
 

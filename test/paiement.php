@@ -8,8 +8,6 @@
 
 
 require '../php-sdk/PayExpresse.php';
-require_once 'conf.php';
-
 
 $id = !empty($_POST['item_id']) ? $_POST['item_id'] : null;
 $items = json_decode(file_get_contents('article.json'), true)['articles'];
