@@ -7,3 +7,5 @@
 /build
 /captures
 .externalNativeBuild
+!/build/outputs/aar/payexpresse-sdk-debug.aar
+!/build/outputs/aar/payexpresse-sdk-release.aar
