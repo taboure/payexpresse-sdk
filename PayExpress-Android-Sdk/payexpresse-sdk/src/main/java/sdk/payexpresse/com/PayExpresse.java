@@ -2,17 +2,13 @@ package sdk.payexpresse.com;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.util.Log;
-import android.view.KeyEvent;
-import android.widget.Toast;
 
 import com.thefinestartist.finestwebview.FinestWebView;
-import com.thefinestartist.finestwebview.FinestWebViewActivity;
 import com.thefinestartist.finestwebview.listeners.WebViewListener;
 
 import org.json.JSONObject;
@@ -27,10 +23,8 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.net.UnknownServiceException;
 import java.util.HashMap;
 import java.util.Map;
 
