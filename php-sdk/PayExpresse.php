@@ -66,6 +66,11 @@ class PayExpresse
     {
         $this->setApiKey($apiKey);
         $this->setApiSecret($apiSecret);
+
+        if(!empty($_POST['is_mobile']) && $_POST['is_mobile'] === 'yes')
+        {
+            $this->isMobile = true;
+        }
     }
 
 

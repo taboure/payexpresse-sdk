@@ -40,7 +40,6 @@ else{
         'ip_user' => $_SERVER['REMOTE_ADDR'],
         'lang' => $_SERVER['HTTP_ACCEPT_LANGUAGE']
     ])
-        ->setMobile(!empty($_POST['is_mobile']))
         ->setTestMode(true)
         ->setCurrency($item->currency)
         ->setRefCommand(uniqid())
