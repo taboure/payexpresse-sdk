@@ -216,6 +216,7 @@ public class PayExpresse {
     {
         params.put("success_url", this._successUrl);
         params.put("cancel_url", this._cancelUrl);
+        params.put("is_mobile", "1");
 
         StringBuilder result = new StringBuilder();
         boolean first = true;
