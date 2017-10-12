@@ -26,7 +26,17 @@ if(hash('sha256', $apiKey) === $api_key_sha256 && hash('sha256', $apiSecret) ===
        {
            $files['articles'][$key]['stock'] = $files['articles'][$key]['stock'] - 1;
            file_put_contents('article.json', json_encode($files, JSON_PRETTY_PRINT|JSON_HEX_QUOT|JSON_UNESCAPED_UNICODE));
+           echo 'success';
+       }
+       else{
+           echo 'key dont exist';
        }
 
    }
+   else{
+       echo 'other event : '.$type_event;
+   }
+}
+else{
+    echo 'not allowed';
 }
