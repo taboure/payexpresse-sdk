@@ -44,8 +44,8 @@ else{
         ->setRefCommand(uniqid())
         ->setNotificationUrl([
             'ipn_url' => BASE_URL.'/ipn.php', //only https
-            'success_url' => BASE_URL.'/index.php?state=success&id='.$id,
-            'cancel_url' => BASE_URL.'/index.php?state=cancel&id='.$id
+            'success_url' => !empty($_POST['success_url']) ? $_POST['success_url']:   BASE_URL.'/index.php?state=success&id='.$id,
+            'cancel_url' => !empty($_POST['cancel_url']) ? $_POST['cancel_url']:  BASE_URL.'/index.php?state=cancel&id='.$id
         ])->send();
 
     echo json_encode($response);
