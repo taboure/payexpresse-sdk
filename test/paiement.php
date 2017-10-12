@@ -8,8 +8,9 @@
 
 
 require '../php-sdk/PayExpresse.php';
+require_once 'conf.php';
 
-$id = !empty($_POST['item_id']) ? $_POST['item_id'] : null;
+$id = !empty($_POST['item_id']) ? intval($_POST['item_id']) : null;
 $items = json_decode(file_get_contents('article.json'), true)['articles'];
 $key = array_search($id, array_column($items, 'id'));
 
@@ -44,7 +45,7 @@ else{
         ->setRefCommand(uniqid())
         ->setNotificationUrl([
             'ipn_url' => BASE_URL.'/ipn.php', //only https
-            'success_url' => !empty($_POST['success_url']) ? $_POST['success_url']:   BASE_URL.'/index.php?state=success&id='.$id,
+            'success_url' => !empty($_POST['success_url']) ? $_POST['success_url'] : BASE_URL.'/index.php?state=success&id='.$id,
             'cancel_url' => !empty($_POST['cancel_url']) ? $_POST['cancel_url']:  BASE_URL.'/index.php?state=cancel&id='.$id
         ])->send();
 
