@@ -29,6 +29,9 @@ class PayExpresse
 
     const PAYMENT_REDIRECT_PATH = '/payment/checkout/';
 
+    const MOBILE_CANCEL_URL = "https://payexpresse.com/mobile/cancel";
+    const MOBILE_SUCCESS_URL = "https://payexpresse.com/mobile/success";
+
 
     /**
      * @var array
@@ -47,6 +50,8 @@ class PayExpresse
     private $liveMode = true;
 
     private $testMode = false;
+
+    private $isMobile = false;
 
     private $currency = 'XOF';
 
@@ -78,8 +83,8 @@ class PayExpresse
             'env'               =>      ($this->testMode) ? 'test' : 'prod',
             'currency'          =>      $this->currency,
             'ipn_url'           =>      PayExpresse::arrayGet($this->notificationUrl, 'ipn_url'),
-            'success_url'       =>      PayExpresse::arrayGet($this->notificationUrl, 'success_url'),
-            'cancel_url'        =>      PayExpresse::arrayGet($this->notificationUrl, 'cancel_url'),
+            'success_url'       =>      $this->isMobile ? $this::MOBILE_SUCCESS_URL :PayExpresse::arrayGet($this->notificationUrl, 'success_url'),
+            'cancel_url'        =>      $this->isMobile ? $this::MOBILE_CANCEL_URL : PayExpresse::arrayGet($this->notificationUrl, 'cancel_url'),
             'custom_field'      =>       json_encode($this->customeField)
         ];
 
@@ -248,6 +253,18 @@ class PayExpresse
     public function setNotificationUrl($notificationUrl)
     {
         $this->notificationUrl = $notificationUrl;
+        return $this;
+    }
+
+
+    /**
+     * @param bool $isMobile
+     * @return $this
+     */
+    public function setMobile($isMobile)
+    {
+        $this->isMobile = $isMobile;
+
         return $this;
     }
 
