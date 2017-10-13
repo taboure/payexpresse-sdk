@@ -7,12 +7,9 @@ import android.os.Handler;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.util.Log;
-
 import com.thefinestartist.finestwebview.FinestWebView;
 import com.thefinestartist.finestwebview.listeners.WebViewListener;
-
 import org.json.JSONObject;
-
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -27,7 +24,6 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.net.ssl.HttpsURLConnection;
 
 
@@ -39,13 +35,11 @@ public class PayExpresse {
     private ProgressDialog progress;
     private String requestTokenUrl;
     private String requestMethod = "POST";
-    private String errorMessage = "Erreur lors du chargement";
     private String loadingDialogTitle = "PayExpresse";
     private String loadingDialogText = "Chargement";
     private String tokenUrl;
     private String _cancelUrl = "https://payexpresse.com/mobile/cancel";
     private String _successUrl = "https://payexpresse.com/mobile/success";
-    private FinestWebView finestWebView;
     private PCallback callback;
 
     public PayExpresse(@NonNull Activity activity, @NonNull String requestTokenUrl, @NonNull String requestMethod){
@@ -156,11 +150,15 @@ public class PayExpresse {
                 .dividerColorRes(R.color.colorPrimaryDark)
                 .menuColorRes(R.color.colorPrimary)
                 .menuTextColorRes(R.color.white)
+                .toolbarColorRes(R.color.colorPrimaryDark)
+                .swipeRefreshColorRes(R.color.colorPrimaryDark)
                 .webViewJavaScriptEnabled(true)
                 .webViewJavaScriptCanOpenWindowsAutomatically(true)
                 .webViewSupportZoom(false)
                 .webViewSupportMultipleWindows(true)
                 .webViewAllowUniversalAccessFromFileURLs(true)
+                .webViewLoadsImagesAutomatically(true)
+                .webViewDisplayZoomControls(false)
                 .webViewLoadWithOverviewMode(true)
                 .disableIconClose(true)
                 .disableIconBack(true)
@@ -177,8 +175,8 @@ public class PayExpresse {
                 .showUrl(false)
                 .showMenuOpenWith(false)
                 .showMenuRefresh(false)
-                .showSwipeRefreshLayout(false)
-                .titleDefault("PayExpresse")
+                .showSwipeRefreshLayout(true)
+                .titleDefault(this.loadingDialogTitle)
                 .setWebViewListener(new WebViewListener() {
                     @Override
                     public void onPageStarted(String url) {
@@ -244,7 +242,7 @@ public class PayExpresse {
         return result.toString();
     }
 
-    private void setHeaders(HttpURLConnection connection)
+    private void setHeaders(@NonNull HttpURLConnection connection)
     {
         for (Map.Entry<String, String> entry : this.headers.entrySet())
         {
@@ -286,45 +284,39 @@ public class PayExpresse {
         return result;
     }
 
-    public PayExpresse setParams(HashMap<String, Object> params) {
+    public PayExpresse setParams(@NonNull HashMap<String, Object> params) {
         this.params = params;
 
         return this;
     }
 
-    public PayExpresse setHeaders(HashMap<String, String> headers) {
+    public PayExpresse setHeaders(@NonNull HashMap<String, String> headers) {
         this.headers = headers;
 
         return this;
     }
 
 
-    public PayExpresse setRequestTokenUrl(String requestTokenUrl) {
+    public PayExpresse setRequestTokenUrl(@NonNull String requestTokenUrl) {
         this.requestTokenUrl = requestTokenUrl;
 
         return this;
     }
 
-    public PayExpresse setRequestMethod(String requestMethod) {
+    public PayExpresse setRequestMethod(@NonNull String requestMethod) {
         this.requestMethod = requestMethod;
 
         return this;
     }
 
-    public PayExpresse setErrorMessage(String errorMessage) {
-        this.errorMessage = errorMessage;
 
-        return this;
-    }
-
-
-    public PayExpresse setLoadingDialogText(String loadingDialogText) {
+    public PayExpresse setLoadingDialogText(@NonNull String loadingDialogText) {
         this.loadingDialogText = loadingDialogText;
 
         return this;
     }
 
-    public PayExpresse setCallback(PCallback callback) {
+    public PayExpresse setCallback(@NonNull PCallback callback) {
         this.callback = callback;
         return this;
     }
