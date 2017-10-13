@@ -243,6 +243,16 @@ img.figlio{
 }
 
 .vbox-content{
-    margin-top: 0px !important;
+    margin-top: 0 !important;
 }
 
+@media only screen and (max-device-width: 700px){
+    .vbox-content {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    .vbox-content .venoframe  {
+        margin: 0 !important;
+    }
+}
