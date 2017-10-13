@@ -5,10 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.StrictMode;
-import android.support.annotation.NonNull;
 import android.util.Log;
-import com.thefinestartist.finestwebview.FinestWebView;
-import com.thefinestartist.finestwebview.listeners.WebViewListener;
 import org.json.JSONObject;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -38,21 +35,20 @@ public class PayExpresse {
     private String loadingDialogTitle = "PayExpresse";
     private String loadingDialogText = "Chargement";
     private String tokenUrl;
-    private String _cancelUrl = "https://payexpresse.com/mobile/cancel";
-    private String _successUrl = "https://payexpresse.com/mobile/success";
-    private PCallback callback;
 
-    public PayExpresse(@NonNull Activity activity, @NonNull String requestTokenUrl, @NonNull String requestMethod){
+    static PCallback callback;
+
+    public PayExpresse(Activity activity, String requestTokenUrl, String requestMethod){
         this.activity = activity;
         this.requestTokenUrl = requestTokenUrl;
         this.requestMethod = requestMethod;
     }
 
-    public PayExpresse(@NonNull Activity activity){
+    public PayExpresse(Activity activity){
         this.activity = activity;
     }
 
-    public PayExpresse(@NonNull Activity activity, @NonNull String requestTokenUrl){
+    public PayExpresse(Activity activity, String requestTokenUrl){
         this.activity = activity;
         this.requestTokenUrl = requestTokenUrl;
     }
@@ -81,7 +77,7 @@ public class PayExpresse {
                         @Override
                         public void run() {
                             PayExpresse.this.dismissLoadingDialog();
-                            PayExpresse.this.callback.onResult(PCallback.Result.ERROR);
+                            PayExpresse.callback.onResult(PCallback.Result.ERROR);
                         }
                     });
 
@@ -137,65 +133,14 @@ public class PayExpresse {
     }
 
 
-    private void closeWebView(){
-        Intent activityPrevious = new Intent(this.activity, this.activity.getClass());
-        activityPrevious.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        this.activity.startActivity(activityPrevious);
-    }
 
     private void openWebView(){
-        new FinestWebView
-                .Builder(this.activity)
-                .progressBarColorRes(R.color.colorPrimaryDark)
-                .dividerColorRes(R.color.colorPrimaryDark)
-                .menuColorRes(R.color.colorPrimary)
-                .menuTextColorRes(R.color.white)
-                .toolbarColorRes(R.color.colorPrimaryDark)
-                .swipeRefreshColorRes(R.color.colorPrimaryDark)
-                .webViewJavaScriptEnabled(true)
-                .webViewJavaScriptCanOpenWindowsAutomatically(true)
-                .webViewSupportZoom(false)
-                .webViewSupportMultipleWindows(true)
-                .webViewAllowUniversalAccessFromFileURLs(true)
-                .webViewLoadsImagesAutomatically(true)
-                .webViewDisplayZoomControls(false)
-                .webViewLoadWithOverviewMode(true)
-                .disableIconClose(true)
-                .disableIconBack(true)
-                .disableIconForward(true)
-                .disableIconMenu(true)
-                .backPressToClose(false)
-                .showIconBack(false)
-                .showIconClose(false)
-                .showIconForward(false)
-                .showIconMenu(false)
-                .showMenuCopyLink(false)
-                .showMenuFind(false)
-                .showMenuShareVia(false)
-                .showUrl(false)
-                .showMenuOpenWith(false)
-                .showMenuRefresh(false)
-                .showSwipeRefreshLayout(true)
-                .titleDefault(this.loadingDialogTitle)
-                .setWebViewListener(new WebViewListener() {
-                    @Override
-                    public void onPageStarted(String url) {
-                        super.onPageStarted(url);
-                        Log.i("Overide url", url);
+        this.dismissLoadingDialog();
+        Intent intent = new Intent(this.activity, ViewActivity.class);
+        //intent.setFlags();
+        intent.putExtra("url", this.tokenUrl);
 
-                        if(PayExpresse.this._cancelUrl.equals(url)) {
-                            PayExpresse.this.callback.onResult(PCallback.Result.CANCEL);
-                            PayExpresse.this.closeWebView();
-                        }
-                        else if(PayExpresse.this._successUrl.equals(url)) {
-                            PayExpresse.this.callback.onResult(PCallback.Result.SUCCESS);
-                            PayExpresse.this.closeWebView();
-                        }
-                    }
-                })
-                .show(this.tokenUrl);
-        PayExpresse.this.dismissLoadingDialog();
-
+        this.activity.startActivity(intent);
     }
 
     private void showLoading()
@@ -219,8 +164,6 @@ public class PayExpresse {
 
     private String getQuery() throws UnsupportedEncodingException
     {
-        params.put("success_url", this._successUrl);
-        params.put("cancel_url", this._cancelUrl);
         params.put("is_mobile", "yes");
 
         StringBuilder result = new StringBuilder();
@@ -242,7 +185,7 @@ public class PayExpresse {
         return result.toString();
     }
 
-    private void setHeaders(@NonNull HttpURLConnection connection)
+    private void setHeaders(HttpURLConnection connection)
     {
         for (Map.Entry<String, String> entry : this.headers.entrySet())
         {
@@ -284,40 +227,40 @@ public class PayExpresse {
         return result;
     }
 
-    public PayExpresse setParams(@NonNull HashMap<String, Object> params) {
+    public PayExpresse setParams(HashMap<String, Object> params) {
         this.params = params;
 
         return this;
     }
 
-    public PayExpresse setHeaders(@NonNull HashMap<String, String> headers) {
+    public PayExpresse setHeaders(HashMap<String, String> headers) {
         this.headers = headers;
 
         return this;
     }
 
 
-    public PayExpresse setRequestTokenUrl(@NonNull String requestTokenUrl) {
+    public PayExpresse setRequestTokenUrl(String requestTokenUrl) {
         this.requestTokenUrl = requestTokenUrl;
 
         return this;
     }
 
-    public PayExpresse setRequestMethod(@NonNull String requestMethod) {
+    public PayExpresse setRequestMethod(String requestMethod) {
         this.requestMethod = requestMethod;
 
         return this;
     }
 
 
-    public PayExpresse setLoadingDialogText(@NonNull String loadingDialogText) {
+    public PayExpresse setLoadingDialogText(String loadingDialogText) {
         this.loadingDialogText = loadingDialogText;
 
         return this;
     }
 
-    public PayExpresse setCallback(@NonNull PCallback callback) {
-        this.callback = callback;
+    public PayExpresse setCallback(PCallback callback) {
+        PayExpresse.callback = callback;
         return this;
     }
 }
