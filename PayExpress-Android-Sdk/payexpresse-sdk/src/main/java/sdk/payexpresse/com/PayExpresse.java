@@ -205,8 +205,8 @@ public class PayExpresse {
             progress = new ProgressDialog(this.activity);
             progress.setTitle(this.loadingDialogTitle);
             progress.setMessage(this.loadingDialogText);
-
         }
+
         progress.show();
     }
 

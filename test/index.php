@@ -5,6 +5,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>Boutique</title>
     <link rel="stylesheet" href="https://cdn.payexpresse.com/v1/payexpresse.min.css">
     <script src="https://cdn.payexpresse.com/v1/payexpresse.min.js"></script>
