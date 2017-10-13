@@ -246,7 +246,7 @@ img.figlio{
     margin-top: 0 !important;
 }
 
-@media only screen and (max-device-width: 700px){
+@media only screen and (max-width: 700px){
     .vbox-content {
         padding: 0 !important;
         margin: 0 !important;
