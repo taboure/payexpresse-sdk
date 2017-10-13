@@ -152,6 +152,10 @@ public class PayExpresse {
     private void openWebView(){
         new FinestWebView
                 .Builder(this.activity)
+                .progressBarColorRes(R.color.colorPrimaryDark)
+                .dividerColorRes(R.color.colorPrimaryDark)
+                .menuColorRes(R.color.colorPrimary)
+                .menuTextColorRes(R.color.white)
                 .webViewJavaScriptEnabled(true)
                 .webViewJavaScriptCanOpenWindowsAutomatically(true)
                 .webViewSupportZoom(false)
@@ -162,6 +166,7 @@ public class PayExpresse {
                 .disableIconBack(true)
                 .disableIconForward(true)
                 .disableIconMenu(true)
+                .backPressToClose(false)
                 .showIconBack(false)
                 .showIconClose(false)
                 .showIconForward(false)
