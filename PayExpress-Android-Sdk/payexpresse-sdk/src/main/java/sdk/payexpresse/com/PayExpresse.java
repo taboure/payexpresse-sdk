@@ -175,6 +175,8 @@ public class PayExpresse {
                 .showMenuFind(false)
                 .showMenuShareVia(false)
                 .showUrl(false)
+                .showMenuOpenWith(false)
+                .showMenuRefresh(false)
                 .showSwipeRefreshLayout(false)
                 .titleDefault("PayExpresse")
                 .setWebViewListener(new WebViewListener() {
