@@ -85,11 +85,10 @@
             requestTokenUrl           :   '<?= BASE_URL ?>/paiement.php',
             method              :   'POST',
             headers             :   {
-               //pour passer des headers vers le servever ex:  "Accept": "text/html"
+              "Accept"          :    "text/html"
             },
             prensentationMode   :   PayExpresse.OPEN_IN_POPUP,
             didPopupClosed: function (is_completed, success_url, cancel_url) {
-
                 window.location.href = is_completed === true ? success_url  : cancel_url;
             },
             willGetToken        :   function () {
@@ -114,3 +113,5 @@
 </script>
 </body>
 </html>
+
+
