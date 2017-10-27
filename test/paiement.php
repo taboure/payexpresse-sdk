@@ -43,7 +43,7 @@ else{
         ->setCurrency($item->currency)
         ->setRefCommand(uniqid())
         ->setNotificationUrl([
-            //'ipn_url' => BASE_URL.'/ipn.php', //only https
+            'ipn_url' => BASE_URL.'/ipn.php', //only https
             'success_url' => BASE_URL.'/index.php?state=success&id='.$id,
             'cancel_url' =>   BASE_URL.'/index.php?state=cancel&id='.$id
         ])->send();
