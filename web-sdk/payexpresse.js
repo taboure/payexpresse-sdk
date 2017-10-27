@@ -2080,7 +2080,7 @@
     /**
      * @var object
      */
-    PayExpresse.prototype.send = function () {
+    PayExpresse.prototype.send = function (themeOption) {
 
         if(PayExpresse.REQUESTING_TOKEN)
         {
@@ -2096,6 +2096,11 @@
             method: this.option.method.toUpperCase(),
             credentials: "same-origin"
         };
+
+        if(typeof themeOption === 'object'){
+            this.dataSentToServer['__themeOption__'] = btoa(JSON.stringify(themeOption));
+
+        }
 
         if(String(this.option.method).toUpperCase() === 'GET' || String(this.option.method).toUpperCase() === 'HEAD')
         {

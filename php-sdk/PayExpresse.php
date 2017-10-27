@@ -32,6 +32,7 @@ class PayExpresse
     const MOBILE_CANCEL_URL = "https://payexpresse.com/mobile/cancel";
     const MOBILE_SUCCESS_URL = "https://payexpresse.com/mobile/success";
 
+    const THEME_OPTION_KEY = '__themeOption__';
 
     /**
      * @var array
@@ -106,10 +107,15 @@ class PayExpresse
 
         if(array_key_exists('token', $jsonResponse))
         {
+            $query = '';
+            if(!empty($_POST[$this::THEME_OPTION_KEY])){
+                $query = '?t='.$_POST[$this::THEME_OPTION_KEY];
+            }
+
            return [
                'success' => 1,
                'token' => $jsonResponse['token'],
-               'redirect_url' => $this::URL.$this::PAYMENT_REDIRECT_PATH.$jsonResponse['token']
+               'redirect_url' => $this::URL.$this::PAYMENT_REDIRECT_PATH.$jsonResponse['token'].$query
            ];
         }
         else if(array_key_exists('error', $jsonResponse))

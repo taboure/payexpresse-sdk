@@ -27,8 +27,7 @@ else{
 
     $item = (object)$items[$key];
 
-    $apiKey = '1afac858d4fa5ec74e3e3734c3829793eb6bd5f4602c84ac4a5069369812915e';
-    $apiSecret = '96bc36c11560f2151c4b43eee310cefabc2e9e9000f7e315c3ca3d279e3f98ac';
+    global $apiKey, $apiSecret;
 
     $response = (new PayExpresse($apiKey, $apiSecret))->setQuery([
         'item_name' => $item->name,
@@ -44,7 +43,7 @@ else{
         ->setCurrency($item->currency)
         ->setRefCommand(uniqid())
         ->setNotificationUrl([
-            'ipn_url' => BASE_URL.'/ipn.php', //only https
+            //'ipn_url' => BASE_URL.'/ipn.php', //only https
             'success_url' => BASE_URL.'/index.php?state=success&id='.$id,
             'cancel_url' =>   BASE_URL.'/index.php?state=cancel&id='.$id
         ])->send();
